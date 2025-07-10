@@ -52,18 +52,20 @@
       z-index: 999;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.85);
       justify-content: center;
       align-items: center;
+      animation: fadeIn 0.3s ease-in-out;
     }
     .lightbox img {
       max-width: 90vw;
       max-height: 90vh;
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
     }
     .lightbox:target {
       display: flex;
     }
-    .nav {
+    .nav, .close {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -71,12 +73,23 @@
       color: #fff;
       text-decoration: none;
       padding: 1rem;
+      z-index: 1000;
     }
     .prev {
       left: 1rem;
     }
     .next {
       right: 1rem;
+    }
+    .close {
+      top: 2rem;
+      right: 2rem;
+      font-size: 2rem;
+      transform: none;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
@@ -86,15 +99,15 @@
     <div class="grid">
       <div class="photo">
         <a href="#img1"><img src="35590011.jpeg" alt="Foto 1 thumb"></a>
-        <div class="caption">Ciclista cruzando el Oberbaumbrücke en Berlín</div>
+        <div class="caption">2024 | PENTAX ME SUPER | KODAK ULTRAMAX 400</div>
       </div>
       <div class="photo">
         <a href="#img2"><img src="35590015.jpeg" alt="Foto 2 thumb"></a>
-        <div class="caption">Volvo estacionado en calle con grafitis, Budapest</div>
+        <div class="caption">2024 | PENTAX ME SUPER | LOMO</div>
       </div>
       <div class="photo">
         <a href="#img3"><img src="35590024.jpeg" alt="Foto 3 thumb"></a>
-        <div class="caption">Vacas descansando en un campo violeta en Austria</div>
+        <div class="caption">2024 | PENTAX ME SUPER | LOMO</div>
       </div>
     </div>
   </div>
@@ -102,16 +115,19 @@
   <!-- Lightboxes -->
   <div id="img1" class="lightbox">
     <a href="#img3" class="nav prev">&#8249;</a>
+    <a href="#" class="close">&#10005;</a>
     <img src="35590011.jpeg" alt="Foto 1 grande">
     <a href="#img2" class="nav next">&#8250;</a>
   </div>
   <div id="img2" class="lightbox">
     <a href="#img1" class="nav prev">&#8249;</a>
+    <a href="#" class="close">&#10005;</a>
     <img src="35590015.jpeg" alt="Foto 2 grande">
     <a href="#img3" class="nav next">&#8250;</a>
   </div>
   <div id="img3" class="lightbox">
     <a href="#img2" class="nav prev">&#8249;</a>
+    <a href="#" class="close">&#10005;</a>
     <img src="35590024.jpeg" alt="Foto 3 grande">
     <a href="#img1" class="nav next">&#8250;</a>
   </div>
