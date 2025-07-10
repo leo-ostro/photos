@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Galería de Leo</title>
+  <title>Gallery</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -63,11 +63,26 @@
     .lightbox:target {
       display: flex;
     }
+    .nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 3rem;
+      color: #fff;
+      text-decoration: none;
+      padding: 1rem;
+    }
+    .prev {
+      left: 1rem;
+    }
+    .next {
+      right: 1rem;
+    }
   </style>
 </head>
 <body>
   <div class="wrapper">
-    <h1>Mis fotos favoritas</h1>
+    <h1>Selection prima</h1>
     <div class="grid">
       <div class="photo">
         <a href="#img1"><img src="35590011.jpeg" alt="Foto 1 thumb"></a>
@@ -75,7 +90,7 @@
       </div>
       <div class="photo">
         <a href="#img2"><img src="35590015.jpeg" alt="Foto 2 thumb"></a>
-        <div class="caption">Volvo estacionado en calle con grafitis, Berlín</div>
+        <div class="caption">Volvo estacionado en calle con grafitis, Budapest</div>
       </div>
       <div class="photo">
         <a href="#img3"><img src="35590024.jpeg" alt="Foto 3 thumb"></a>
@@ -85,8 +100,20 @@
   </div>
 
   <!-- Lightboxes -->
-  <div id="img1" class="lightbox"><a href="#"><img src="35590011.jpeg" alt="Foto 1 grande"></a></div>
-  <div id="img2" class="lightbox"><a href="#"><img src="35590015.jpeg" alt="Foto 2 grande"></a></div>
-  <div id="img3" class="lightbox"><a href="#"><img src="35590024.jpeg" alt="Foto 3 grande"></a></div>
+  <div id="img1" class="lightbox">
+    <a href="#img3" class="nav prev">&#8249;</a>
+    <img src="35590011.jpeg" alt="Foto 1 grande">
+    <a href="#img2" class="nav next">&#8250;</a>
+  </div>
+  <div id="img2" class="lightbox">
+    <a href="#img1" class="nav prev">&#8249;</a>
+    <img src="35590015.jpeg" alt="Foto 2 grande">
+    <a href="#img3" class="nav next">&#8250;</a>
+  </div>
+  <div id="img3" class="lightbox">
+    <a href="#img2" class="nav prev">&#8249;</a>
+    <img src="35590024.jpeg" alt="Foto 3 grande">
+    <a href="#img1" class="nav next">&#8250;</a>
+  </div>
 </body>
 </html>
