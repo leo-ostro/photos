@@ -7,20 +7,26 @@
   <style>
     body {
       margin: 0;
-      font-family: system-ui, sans-serif;
-      background: #eaeaea;
-      color: #f0f0f0;
+      font-family: 'Courier New', Courier, monospace;
+      background: #f4f4f4;
+      color: #222;
+      scroll-behavior: smooth;
     }
     .wrapper {
       max-width: 1000px;
       margin: auto;
-      background: #2b2b2b;
+      background: #fff;
       padding: 2rem;
-      min-height: 100vh;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
     }
     h1 {
       text-align: center;
+      font-size: 2rem;
       margin-bottom: 2rem;
+      color: #000;
+      border-bottom: 2px dashed #aaa;
+      padding-bottom: 0.5rem;
     }
     .grid {
       display: grid;
@@ -29,22 +35,26 @@
     }
     .photo {
       text-align: center;
+      position: relative;
     }
     .photo img {
       width: 100%;
       height: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      border: 2px solid #888;
+      padding: 4px;
+      background: #eee;
       cursor: pointer;
-      transition: transform 0.2s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     .photo img:hover {
-      transform: scale(1.02);
+      transform: scale(1.03);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
     .caption {
       margin-top: 0.5rem;
-      color: #ccc;
+      color: #444;
       font-size: 0.95rem;
+      font-style: italic;
     }
     .lightbox {
       display: none;
@@ -52,7 +62,7 @@
       z-index: 999;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.85);
+      background: rgba(0,0,0,0.9);
       justify-content: center;
       align-items: center;
       animation: fadeIn 0.3s ease-in-out;
@@ -60,7 +70,8 @@
     .lightbox img {
       max-width: 90vw;
       max-height: 90vh;
-      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+      border: 3px solid #ccc;
+      background: #fff;
     }
     .lightbox:target {
       display: flex;
@@ -69,11 +80,12 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 3rem;
+      font-size: 2.5rem;
       color: #fff;
       text-decoration: none;
-      padding: 1rem;
+      padding: 0.5rem;
       z-index: 1000;
+      font-family: Arial, sans-serif;
     }
     .prev {
       left: 1rem;
@@ -82,54 +94,83 @@
       right: 1rem;
     }
     .close {
-      top: 2rem;
-      right: 2rem;
-      font-size: 2rem;
+      top: 1rem;
+      right: 1rem;
       transform: none;
+      font-size: 1.8rem;
+      font-weight: bold;
     }
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
+    .quote {
+      text-align: center;
+      color: #666;
+      font-style: italic;
+      font-size: 1rem;
+      margin-top: 2rem;
+      border-top: 1px dotted #aaa;
+      padding-top: 1rem;
+    }
+    .top-link {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #000;
+      color: #fff;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-family: monospace;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    }
+    .top-link:hover {
+      background: #444;
+    }
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <h1>Selection prima</h1>
+  <div class="wrapper" id="top">
+    <h1>Prima Selection</h1>
     <div class="grid">
       <div class="photo">
         <a href="#img1"><img src="35590011.jpeg" alt="Foto 1 thumb"></a>
-        <div class="caption">2024 | PENTAX ME SUPER | KODAK ULTRAMAX 400</div>
+        <div class="caption">2024<br>PENTAX ME SUPER<br>KODAK ULTRAMAX 400</div>
       </div>
       <div class="photo">
         <a href="#img2"><img src="35590015.jpeg" alt="Foto 2 thumb"></a>
-        <div class="caption">2024 | PENTAX ME SUPER | LOMO</div>
+        <div class="caption">2024<br>PENTAX ME SUPER<br>LOMO</div>
       </div>
       <div class="photo">
         <a href="#img3"><img src="35590024.jpeg" alt="Foto 3 thumb"></a>
-        <div class="caption">2024 | PENTAX ME SUPER | LOMO</div>
+        <div class="caption">2024<br>PENTAX ME SUPER<br>LOMO</div>
       </div>
     </div>
+    <div class="quote">"La calle está llena de historias, sólo hay que escucharlas con la luz."</div>
   </div>
 
   <!-- Lightboxes -->
   <div id="img1" class="lightbox">
     <a href="#img3" class="nav prev">&#8249;</a>
-    <a href="#" class="close">&#10005;</a>
+    <a href="#" class="close">[X]</a>
     <img src="35590011.jpeg" alt="Foto 1 grande">
     <a href="#img2" class="nav next">&#8250;</a>
   </div>
   <div id="img2" class="lightbox">
     <a href="#img1" class="nav prev">&#8249;</a>
-    <a href="#" class="close">&#10005;</a>
+    <a href="#" class="close">[X]</a>
     <img src="35590015.jpeg" alt="Foto 2 grande">
     <a href="#img3" class="nav next">&#8250;</a>
   </div>
   <div id="img3" class="lightbox">
     <a href="#img2" class="nav prev">&#8249;</a>
-    <a href="#" class="close">&#10005;</a>
+    <a href="#" class="close">[X]</a>
     <img src="35590024.jpeg" alt="Foto 3 grande">
     <a href="#img1" class="nav next">&#8250;</a>
   </div>
+
+  <a href="#top" class="top-link">^ arriba</a>
 </body>
 </html>
