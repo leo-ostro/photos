@@ -134,73 +134,83 @@
 <body>
   <div class="wrapper" id="top">
     <h1>Prima Selection</h1>
-    <div class="grid">
-      <div class="photo">
-        <a href="#img1"><img src="img01.jpg" alt="Image 1"></a>
-        <div class="caption">2024<br>PENTAX ME SUPER<br>LOMO</div>
-      </div>
-      <div class="photo">
-        <a href="#img2"><img src="img02.jpg" alt="Image 2"></a>
-        <div class="caption">2024<br>PENTAX ME SUPER<br>LOMO</div>
-      </div>
-      <div class="photo">
-        <a href="#img3"><img src="img03.jpg" alt="Image 3"></a>
-        <div class="caption">2024<br>PENTAX ME SUPER<br>LOMO</div>
-      </div>
-      <div class="photo">
-        <a href="#img4"><img src="img04.jpg" alt="Image 4"></a>
-        <div class="caption">2024<br>PENTAX ME SUPER<br>KODAK ULTRAMAX 400</div>
-      </div>
-      <div class="photo">
-        <a href="#img5"><img src="img05.jpg" alt="Image 5"></a>
-        <div class="caption">2024<br>PENTAX ME SUPER<br>KODAK ULTRAMAX 400</div>
-      </div>
-      <div class="photo">
-        <a href="#img6"><img src="img06.jpg" alt="Image 6"></a>
-        <div class="caption">2024<br>PENTAX ME SUPER<br>KODAK ULTRAMAX 400</div>
-      </div>
-    </div>
-    <div class="quote">go out, do something</div>
+    <p style="font-family: monospace; font-size: 0.85rem; text-align: center; color: gray; margin-top: -1rem; margin-bottom: 2rem;"></p>
+    <div class="grid" id="photoGrid"></div>
+    <div class="quote">"go out do something"</div>
   </div>
-
-  <!-- Lightboxes -->
-  <div id="img1" class="lightbox">
-    <a href="#img6" class="nav prev">&#8249;</a>
+  <div id="lightbox" class="lightbox">
     <a href="#" class="close">[X]</a>
-    <img src="img01.jpg" alt="Image 1 large">
-    <a href="#img2" class="nav next">&#8250;</a>
+    <a href="#" id="prevBtn" class="nav prev">&#8249;</a>
+    <img id="lightboxImg" src="" alt="">
+    <a href="#" id="nextBtn" class="nav next">&#8250;</a>
   </div>
-  <div id="img2" class="lightbox">
-    <a href="#img1" class="nav prev">&#8249;</a>
-    <a href="#" class="close">[X]</a>
-    <img src="img02.jpg" alt="Image 2 large">
-    <a href="#img3" class="nav next">&#8250;</a>
-  </div>
-  <div id="img3" class="lightbox">
-    <a href="#img2" class="nav prev">&#8249;</a>
-    <a href="#" class="close">[X]</a>
-    <img src="img03.jpg" alt="Image 3 large">
-    <a href="#img4" class="nav next">&#8250;</a>
-  </div>
-  <div id="img4" class="lightbox">
-    <a href="#img3" class="nav prev">&#8249;</a>
-    <a href="#" class="close">[X]</a>
-    <img src="img04.jpg" alt="Image 4 large">
-    <a href="#img5" class="nav next">&#8250;</a>
-  </div>
-  <div id="img5" class="lightbox">
-    <a href="#img4" class="nav prev">&#8249;</a>
-    <a href="#" class="close">[X]</a>
-    <img src="img05.jpg" alt="Image 5 large">
-    <a href="#img6" class="nav next">&#8250;</a>
-  </div>
-  <div id="img6" class="lightbox">
-    <a href="#img5" class="nav prev">&#8249;</a>
-    <a href="#" class="close">[X]</a>
-    <img src="img06.jpg" alt="Image 6 large">
-    <a href="#img1" class="nav next">&#8250;</a>
-  </div>
-
   <a href="#top" class="top-link">^ back to top</a>
+  <script>
+    const photos = [
+      { file: "img01.jpg", caption: "2024\nPENTAX ME SUPER\nKODAK ULTRAMAX 400" },
+      { file: "img02.jpg", caption: "2024\nPENTAX ME SUPER\nLOMO" },
+      { file: "img03.jpg", caption: "2024\nPENTAX ME SUPER\nLOMO" },
+      { file: "img04.jpg", caption: "2024\nPENTAX ME SUPER\nKODAK ULTRAMAX 400" },
+      { file: "img05.jpg", caption: "2024\nPENTAX ME SUPER\nKODAK ULTRAMAX 400" },
+      { file: "img06.jpg", caption: "2024\nPENTAX ME SUPER\nKODAK ULTRAMAX 400" }
+    ];
+
+    const photoGrid = document.getElementById("photoGrid");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    let currentIndex = 0;
+
+    function openLightbox(index) {
+      currentIndex = index;
+      lightboxImg.src = photos[index].file;
+      lightbox.style.display = "flex";
+    }
+
+    function closeLightbox() {
+      lightbox.style.display = "none";
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % photos.length;
+      lightboxImg.src = photos[currentIndex].file;
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+      lightboxImg.src = photos[currentIndex].file;
+    }
+
+    photos.forEach((photo, index) => {
+      const div = document.createElement("div");
+      div.className = "photo";
+      div.innerHTML = `
+        <img src="${photo.file}" alt="photo" onclick="openLightbox(${index})">
+        <div class="caption">${photo.caption.replaceAll("\n", "<br>")}</div>
+      `;
+      photoGrid.appendChild(div);
+    });
+
+    document.querySelector(".close").onclick = closeLightbox;
+    prevBtn.onclick = showPrev;
+    nextBtn.onclick = showNext;
+    lightbox.onclick = (e) => { if (e.target === lightbox) closeLightbox(); };
+  </script>
+  <!-- README INSTRUCTIONS -->
+  <!--
+  Prima Selection – Minimal Photo Gallery
+
+  📥 Add new photos:
+  1. Upload new image to same folder (e.g. "img07.jpg")
+  2. Add a new object to the `photos` array in the JS:
+     { file: "img07.jpg", caption: "2024\nPENTAX ME SUPER\nKODAK GOLD 200" }
+
+  💡 Tips:
+  - Use optimized JPGs (1600px width max)
+  - Every push to GitHub Pages updates the site
+  - Edit in GitHub or any text editor with live preview
+  -->
 </body>
 </html>
