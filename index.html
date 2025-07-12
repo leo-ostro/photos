@@ -28,6 +28,23 @@
       border-bottom: 2px dashed #aaa;
       padding-bottom: 0.5rem;
     }
+    .filter-buttons {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .filter-buttons button {
+      background: #fff;
+      border: 1px solid #000;
+      color: #000;
+      font-family: monospace;
+      padding: 0.3rem 0.6rem;
+      margin: 0 0.3rem 0.6rem;
+      cursor: pointer;
+    }
+    .filter-buttons button:hover {
+      background: #000;
+      color: #fff;
+    }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -129,14 +146,29 @@
     .top-link:hover {
       background: #444;
     }
+    .about {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid #ccc;
+      font-family: monospace;
+    }
+    .about h2 {
+      font-size: 1.5rem;
+    }
   </style>
 </head>
 <body>
   <div class="wrapper" id="top">
     <h1>Prima Selection</h1>
-    <p style="font-family: monospace; font-size: 0.85rem; text-align: center; color: gray; margin-top: -1rem; margin-bottom: 2rem;"></p>
+    <div class="filter-buttons" id="filters"></div>
     <div class="grid" id="photoGrid"></div>
     <div class="quote">"go out do something"</div>
+
+    <div class="about">
+      <h2>About this site</h2>
+      <p>I'm Leo, and I shoot analog street photography with a Pentax ME Super. All photos are taken on film, mostly in Vienna and around Europe.</p>
+      <p>If you're featured in a photo and would prefer it not to appear here, please email me: <a href="mailto:leo@example.com">leo@example.com</a></p>
+    </div>
   </div>
   <div id="lightbox" class="lightbox">
     <a href="#" class="close">[X]</a>
@@ -147,21 +179,38 @@
   <a href="#top" class="top-link">^ back to top</a>
   <script>
     const photos = [
-      { file: "img01.jpg", caption: "2024\nPENTAX ME SUPER\nKODAK ULTRAMAX 400" },
-      { file: "img02.jpg", caption: "2024\nPENTAX ME SUPER\nLOMO" },
-      { file: "img03.jpg", caption: "2024\nPENTAX ME SUPER\nLOMO" },
-      { file: "img04.jpg", caption: "2024\nPENTAX ME SUPER\nKODAK ULTRAMAX 400" },
-      { file: "img05.jpg", caption: "2024\nPENTAX ME SUPER\nKODAK ULTRAMAX 400" },
-      { file: "img06.jpg", caption: "2024\nPENTAX ME SUPER\nKODAK ULTRAMAX 400" }
+      { file: "img01.jpg", caption: "2024\nPENTAX ME SUPER\nKODAK ULTRAMAX 400", tags: ["street"] },
+      { file: "img02.jpg", caption: "2024\nPENTAX ME SUPER\nLOMO", tags: ["street"] },
+      { file: "img03.jpg", caption: "2024\nPENTAX ME SUPER\nLOMO", tags: ["portrait"] },
+      { file: "img04.jpg", caption: "2025\nPENTAX ME SUPER\nKODAK ULTRAMAX 400", tags: ["nature"] },
+      { file: "img05.jpg", caption: "2025\nPENTAX ME SUPER\nKODAK ULTRAMAX 400", tags: ["car"] },
+      { file: "img06.jpg", caption: "2025\nPENTAX ME SUPER\nKODAK ULTRAMAX 400", tags: ["landscape"] }
     ];
 
     const photoGrid = document.getElementById("photoGrid");
+    const filterContainer = document.getElementById("filters");
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightboxImg");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
 
     let currentIndex = 0;
+    let currentTag = "all";
+
+    function renderPhotos(tag = "all") {
+      photoGrid.innerHTML = "";
+      photos.forEach((photo, index) => {
+        if (tag === "all" || photo.tags.includes(tag)) {
+          const div = document.createElement("div");
+          div.className = "photo";
+          div.innerHTML = `
+            <img src="${photo.file}" alt="photo" onclick="openLightbox(${index})">
+            <div class="caption">${photo.caption.replaceAll("\n", "<br>")}</div>
+          `;
+          photoGrid.appendChild(div);
+        }
+      });
+    }
 
     function openLightbox(index) {
       currentIndex = index;
@@ -183,34 +232,28 @@
       lightboxImg.src = photos[currentIndex].file;
     }
 
-    photos.forEach((photo, index) => {
-      const div = document.createElement("div");
-      div.className = "photo";
-      div.innerHTML = `
-        <img src="${photo.file}" alt="photo" onclick="openLightbox(${index})">
-        <div class="caption">${photo.caption.replaceAll("\n", "<br>")}</div>
-      `;
-      photoGrid.appendChild(div);
-    });
+    function buildFilters() {
+      const tags = new Set();
+      photos.forEach(p => p.tags.forEach(t => tags.add(t)));
+      const allTags = ["all", ...Array.from(tags)];
+      allTags.forEach(tag => {
+        const btn = document.createElement("button");
+        btn.textContent = tag;
+        btn.onclick = () => {
+          currentTag = tag;
+          renderPhotos(tag);
+        };
+        filterContainer.appendChild(btn);
+      });
+    }
 
     document.querySelector(".close").onclick = closeLightbox;
     prevBtn.onclick = showPrev;
     nextBtn.onclick = showNext;
     lightbox.onclick = (e) => { if (e.target === lightbox) closeLightbox(); };
+
+    buildFilters();
+    renderPhotos();
   </script>
-  <!-- README INSTRUCTIONS -->
-  <!--
-  Prima Selection – Minimal Photo Gallery
-
-  📥 Add new photos:
-  1. Upload new image to same folder (e.g. "img07.jpg")
-  2. Add a new object to the `photos` array in the JS:
-     { file: "img07.jpg", caption: "2024\nPENTAX ME SUPER\nKODAK GOLD 200" }
-
-  💡 Tips:
-  - Use optimized JPGs (1600px width max)
-  - Every push to GitHub Pages updates the site
-  - Edit in GitHub or any text editor with live preview
-  -->
 </body>
 </html>
